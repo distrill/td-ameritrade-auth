@@ -2,10 +2,14 @@ const ngrok = require('ngrok');
 const express = require('express');
 const rp = require('request-promise');
 
-const port = 3000;
+const port = 2828;
 
 async function init(appkeyparam) {
-  const appkey = appkeyparam || process.env.APPKEY;
+  const appkey = appkeyparam || process.env.TDAUTH_APPKEY;
+  if (!appkey) {
+    throw new Error('app key must be passed into init function or set as TDAUTH_APPKEY environment variable');
+  }
+
   const clientId = `${appkey}@AMER.OAUTHAP`;
 
   const url = await ngrok.connect({
