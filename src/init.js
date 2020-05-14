@@ -1,6 +1,8 @@
+const { promises: fs } = require('fs');
 const ngrok = require('ngrok');
 const express = require('express');
 const rp = require('request-promise');
+const moment = require('moment');
 
 const port = 2828;
 
@@ -25,6 +27,7 @@ async function init(appkeyparam) {
         url: 'https://api.tdameritrade.com/v1/oauth2/token',
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        json: true,
         form: {
           grant_type: 'authorization_code',
           access_type: 'offline',
@@ -34,6 +37,8 @@ async function init(appkeyparam) {
         },
       };
       const data = await rp(options);
+      data.now = moment().unix();
+      await fs.writeFile('./.tdsecrets', JSON.stringify(data, null, 2));
       return res.json({ ok: 'ok', data });
     } catch (err) {
       return next(err);
