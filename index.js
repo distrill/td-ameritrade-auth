@@ -1,7 +1,4 @@
 const init = require('./src/init');
+const getToken = require('./src/token');
 
-module.exports = { init };
-
-init()
-  .then(() => console.log('done!'))
-  .catch((err) => console.log(err));
+module.exports = { init, getToken };
