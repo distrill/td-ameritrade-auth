@@ -39,7 +39,12 @@ async function init(appkeyparam) {
       const data = await rp(options);
       data.now = moment().unix();
       await fs.writeFile('./.tdsecrets', JSON.stringify(data, null, 2));
-      return res.json({ ok: 'ok', data });
+      res.json({ ok: 'ok', data });
+      console.log(`
+        Thank you for initializing td-ameritrade-auth.
+        The library is ready to use, and getToken should now return an up to date access_token as needed.
+      `);
+      return process.exit(0);
     } catch (err) {
       return next(err);
     }
