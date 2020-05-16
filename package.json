@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": {
     "td-ameritrade-auth": "bin/cli.js"
   },
@@ -20,7 +20,7 @@
     "request-promise": "^4.2.5"
   },
   "name": "td-ameritrade-auth",
-  "description": "authentication for td ameritrade api made easy.    init once and then reuse the library to get fresh tokens",
+  "description": "authentication for td ameritrade api made easy",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
