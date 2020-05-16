@@ -5,18 +5,20 @@ const { version } = require('../package.json');
 const init = require('../src/init');
 const token = require('../src/token');
 
-function wrapAction(action) {
+function verifyKey(action) {
   return (cmd) => {
     const key = cmd.parent.key || process.env.TDAUTH_APPKEY;
     if (!key) {
-      throw new Error('app key must be provided as an argument or set as TDAUTH_APPKEY environment variable');
+      return Promise.reject(
+        new Error('app key must be provided as an argument or set as TDAUTH_APPKEY environment variable'),
+      );
     }
     return action(key);
   };
 }
 
-const initAction = wrapAction(init);
-const tokenAction = wrapAction(token).then(console.log);
+const initAction = verifyKey(init);
+const tokenAction = (cmd) => verifyKey(token)(cmd).then(console.log);
 
 async function run() {
   program.version(version);

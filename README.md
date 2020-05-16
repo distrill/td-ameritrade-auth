@@ -32,10 +32,12 @@ Your access_token, along with refresh_token and expiration times, will be stored
 ### Get Token  
 Once the library has been initialized, it has what it needs to retreive a fresh token. Tokens from TD Ameritrade are valid for 30 minutes only, so the token must be refreshed within that timeframe to avoid outages. 
 
+cli:
 ``` bash
 td-ameritrade-auth token --key=<your-td-app-key>
 ```
 
+bash:
 ``` javascript
 const { getToken } = require('td-ameritrade-auth');
 
