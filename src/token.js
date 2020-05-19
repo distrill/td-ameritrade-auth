@@ -49,7 +49,7 @@ async function token(appkeyparam) {
 
   // try to read tdsecrets, fail if unable
   if (!(await exists(filename))) {
-    throw new Error('this library must be initialized before use. see `init` in the documentation');
+    throw new Error('td-ameritrade-auth must be initialized before use. see `init` in the documentation');
   }
   const rawSecrets = await fs.readFile(filename);
   const secrets = JSON.parse(rawSecrets);
