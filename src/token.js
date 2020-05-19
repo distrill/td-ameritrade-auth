@@ -1,6 +1,9 @@
 const { promises: fs, constants: { F_OK } } = require('fs');
 const moment = require('moment');
 const rp = require('request-promise');
+const debug = require('debug');
+
+const info = debug('tdauth');
 
 async function exists(file) {
   try {
@@ -52,16 +55,15 @@ async function token(appkeyparam) {
 
   // if token not close to expiration, return token
   const isTokenStale = willExpireSoon(secrets.expires_in + secrets.now);
-  console.log(secrets.expires_in, secrets.now, moment().unix());
   if (!isTokenStale) {
-    console.log('token is fresh, serving hot and fresh');
+    info('token is fresh, serving as is');
     return secrets.access_token;
   }
 
   // if token near expiration and refresh not, refresh then return
   const isRefreshTokenStale = willExpireSoon(secrets.refresh_token_expires_in + secrets.now);
   if (!isRefreshTokenStale) {
-    console.log('token is stale, fetching refresh token');
+    info('token is stale, fetching refresh token');
     return refreshToken(clientId, secrets.refresh_token);
   }
 

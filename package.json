@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "td-ameritrade-auth": "bin/cli.js"
   },
@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "commander": "^5.1.0",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "moment": "^2.25.3",
     "ngrok": "^3.2.7",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "supports-color": "^7.1.0"
   },
   "name": "td-ameritrade-auth",
   "description": "authentication for td ameritrade api made easy",
