@@ -3,6 +3,7 @@ const ngrok = require('ngrok');
 const express = require('express');
 const rp = require('request-promise');
 const moment = require('moment');
+const { secretsfile } = require('./constants');
 
 const port = 2828;
 
@@ -38,7 +39,7 @@ async function init(appkeyparam) {
       };
       const data = await rp(options);
       data.now = moment().unix();
-      await fs.writeFile('./.tdsecrets', JSON.stringify(data, null, 2));
+      await fs.writeFile(secretsfile, JSON.stringify(data, null, 2));
       res.json({ ok: 'ok', data });
       console.log(`
         Thank you for initializing td-ameritrade-auth.

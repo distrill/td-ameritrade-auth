@@ -2,6 +2,7 @@ const { promises: fs, constants: { F_OK } } = require('fs');
 const moment = require('moment');
 const rp = require('request-promise');
 const debug = require('debug');
+const { secretsfile } = require('./constants');
 
 const info = debug('tdauth');
 
@@ -34,7 +35,7 @@ async function refreshToken(clientId, rt) {
   };
   const data = await rp(options);
   data.now = moment().unix();
-  await fs.writeFile('./.tdsecrets', JSON.stringify(data, null, 2));
+  await fs.writeFile(secretsfile, JSON.stringify(data, null, 2));
   return data.access_token;
 }
 
@@ -45,13 +46,12 @@ async function token(appkeyparam) {
   }
 
   const clientId = `${appkey}@AMER.OAUTHAP`;
-  const filename = `${__dirname}/.tdsecrets`;
 
   // try to read tdsecrets, fail if unable
-  if (!(await exists(filename))) {
+  if (!(await exists(secretsfile))) {
     throw new Error('td-ameritrade-auth must be initialized before use. see `init` in the documentation');
   }
-  const rawSecrets = await fs.readFile(filename);
+  const rawSecrets = await fs.readFile(secretsfile);
   const secrets = JSON.parse(rawSecrets);
 
   // if token not close to expiration, return token
