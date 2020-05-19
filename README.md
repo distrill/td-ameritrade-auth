@@ -27,7 +27,7 @@ Either way, text will output guiding you through the rest of the process.
 2. update your app in td ameritrade's web ui to accept the callback url generated on app boot
 3. click on the link generated on app boot to login and authorize your app
 
-Your access_token, along with refresh_token and expiration times, will be stored in `node_modules/td-ameritrade-auth/.tdsecrets`.
+Your access_token, along with refresh_token and expiration times, will be stored in `node_modules/td-ameritrade-auth/src/.tdsecrets`.
 
 ### Get Token  
 Once the library has been initialized, it has what it needs to retreive a fresh token. Tokens from TD Ameritrade are valid for 30 minutes only, so the token must be refreshed within that timeframe to avoid outages. 

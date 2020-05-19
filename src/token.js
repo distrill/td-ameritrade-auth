@@ -45,12 +45,13 @@ async function token(appkeyparam) {
   }
 
   const clientId = `${appkey}@AMER.OAUTHAP`;
+  const filename = `${__dirname}/.tdsecrets`;
 
   // try to read tdsecrets, fail if unable
-  if (!(await exists('./.tdsecrets'))) {
+  if (!(await exists(filename))) {
     throw new Error('this library must be initialized before use. see `init` in the documentation');
   }
-  const rawSecrets = await fs.readFile('./.tdsecrets');
+  const rawSecrets = await fs.readFile(filename);
   const secrets = JSON.parse(rawSecrets);
 
   // if token not close to expiration, return token
