@@ -1,9 +1,9 @@
-var fs = require('fs');
+const fs = require('fs');
 const { promises: pfs } = require('fs');
-var https = require('https');
-var privateKey = fs.readFileSync('server.key', 'utf8');
-var certificate = fs.readFileSync('server.crt', 'utf8');
-var credentials = { key: privateKey, cert: certificate };
+const https = require('https');
+const privateKey = fs.readFileSync('server.key', 'utf8');
+const certificate = fs.readFileSync('server.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 const ngrok = require('ngrok');
 const express = require('express');
 const rp = require('request-promise');
