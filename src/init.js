@@ -4,7 +4,6 @@ const https = require('https');
 const privateKey = fs.readFileSync('server.key', 'utf8');
 const certificate = fs.readFileSync('server.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
-const ngrok = require('ngrok');
 const express = require('express');
 const rp = require('request-promise');
 const moment = require('moment');
