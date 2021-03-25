@@ -3,7 +3,8 @@ const moment = require('moment');
 const rp = require('request-promise');
 const debug = require('debug');
 const { secretsfile } = require('./constants');
-
+const Open = require('open');
+const { init, login } = require('./init');
 const info = debug('tdauth');
 
 async function exists(file) {
@@ -47,12 +48,10 @@ async function token(appkeyparam) {
 
   const clientId = `${appkey}@AMER.OAUTHAP`;
 
-  // try to read tdsecrets, fail if unable
-  if (!(await exists(secretsfile))) {
-    throw new Error('td-ameritrade-auth must be initialized before use. see `init` in the documentation');
-  }
-  const rawSecrets = await fs.readFile(secretsfile);
-  const secrets = JSON.parse(rawSecrets);
+	// try to read tdsecrets, fail if unable
+	if (await exists(secretsfile)) {
+		const rawSecrets = await fs.readFile(secretsfile);
+		const secrets = JSON.parse(rawSecrets);
 
   // if token not close to expiration, return token
   const isTokenStale = willExpireSoon(secrets.expires_in + secrets.now);
@@ -61,15 +60,17 @@ async function token(appkeyparam) {
     return secrets.access_token;
   }
 
-  // if token near expiration and refresh not, refresh then return
+		// if the refresh token isn't stale, use it to refresh the token
   const isRefreshTokenStale = willExpireSoon(secrets.refresh_token_expires_in + secrets.now);
   if (!isRefreshTokenStale) {
     info('token is stale, fetching refresh token');
     return refreshToken(clientId, secrets.refresh_token);
   }
+	}
 
-  // if token near expiratikon and refresh near expiration, pls re-init
-  throw new Error('access and refresh tokens have both expired. please re-initialize the library');
+	//If we get here, we need to log in
+	console.log("all tokens were stale, or user was never logged in.  Launching browser login...")
+	await login();
 }
 
 module.exports = token;
